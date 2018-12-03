@@ -1,0 +1,37 @@
+.results-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.results-pane-one {
+    background-color: white;
+    width: 500px;
+    margin: 30px;
+    padding: 20px;
+    height: 400px;
+    color: #282c34;
+    border-radius: 10px;
+}
+
+.results-pane-two {
+    background-color: white;
+    width: 400px;
+    margin: 30px;
+    padding: 20px;
+    height: 500px;
+    color: #282c34;
+    border-radius: 10px;
+}
+
+.percentage {
+    font-size: 150px;
+    color: #00cc00;
+}
+
+.sub-text {
+    font-size: 18px;
+}
+
+.results-list {
+    margin-top: 20px;
+}

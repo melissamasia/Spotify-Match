@@ -4,9 +4,9 @@ import './App.css';
 class Title extends Component {
     render(){
         return(
-            <div className="Title">
-                <h1 className="Title-header">Welcome to Spotify Match. </h1>
-                <p> Login to Spotify with a friend to compare music libraries.</p>
+            <div className="title">
+                <h1 className="title-header">{this.props.mainText}</h1>
+                <p>{this.props.subText}</p>
             </div>
         );
     }
