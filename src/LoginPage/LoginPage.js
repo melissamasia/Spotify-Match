@@ -8,8 +8,7 @@ class LoginPage extends Component {
     constructor(props){
         super(props)
         this.state = {
-          userOneLoggedIn: false,
-          userTwoLoggedIn: false,
+          bothLoggedIn: false,
         }
       }
 
@@ -21,10 +20,10 @@ class LoginPage extends Component {
                     subText="Login with a friend to compare Spotify libraries."
                 ></Title>
                 <div className="pane-row">
-                    <LoginPane user="melissamasia" loggedIn={this.state.userOneLoggedIn}></LoginPane>
-                    <LoginPane user="tmarij4" loggedIn={this.state.userTwoLoggedIn}></LoginPane>
+                    <LoginPane></LoginPane>
+                    <LoginPane></LoginPane>
                 </div>
-                <SubmitButton isDisabled={!(this.state.userOneLoggedIn && this.state.userTwoLoggedIn)}></SubmitButton>
+                <SubmitButton isDisabled={!this.state.bothLoggedIn}></SubmitButton>
             </div>
           );
       }

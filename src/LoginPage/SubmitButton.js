@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { fetchComparisonData } from '../api/apiCalls';
 import './Login.css';
 
 class SubmitButton extends Component {
@@ -14,9 +15,10 @@ class SubmitButton extends Component {
     handleClick(){
         this.setState({ isLoading: true });
         //insert ajax call
+        fetchComparisonData();
         setTimeout(() => {
             this.setState({ isLoading: false})
-        }, 2000);
+        }, 2000)
     }
 
     render(){
