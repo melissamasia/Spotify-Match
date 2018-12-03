@@ -3,7 +3,6 @@ import './Login.css';
 import logo from './logo.png';
 import check from './check.png';
 import { Button } from 'react-bootstrap';
-import { authenticateUser } from '../api/apiCalls';
 
 class LoginPane extends Component {
     constructor(props){
@@ -19,7 +18,7 @@ class LoginPane extends Component {
     handleClick(){
         this.setState({ isLoading: true });
         //insert ajax call
-        var username = authenticateUser();
+        var username = this.props.onLoginClick();
         this.setState({ 
             loggedIn: true,
             username,

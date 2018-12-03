@@ -5,13 +5,6 @@ import SubmitButton from './SubmitButton';
 import './Login.css';
 
 class LoginPage extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-          bothLoggedIn: false,
-        }
-      }
-
       render(){
           return(
             <div>
@@ -20,10 +13,10 @@ class LoginPage extends Component {
                     subText="Login with a friend to compare Spotify libraries."
                 ></Title>
                 <div className="pane-row">
-                    <LoginPane></LoginPane>
-                    <LoginPane></LoginPane>
+                    <LoginPane onLoginClick={this.props.onLoginClick}></LoginPane>
+                    <LoginPane onLoginClick={this.props.onLoginClick}></LoginPane>
                 </div>
-                <SubmitButton isDisabled={!this.state.bothLoggedIn}></SubmitButton>
+                <SubmitButton onClick={this.props.onSubmitClick} isDisabled={!this.props.bothLoggedIn}></SubmitButton>
             </div>
           );
       }

@@ -34,7 +34,6 @@ class ResultsPage extends Component {
                         >
                         </ResultLists>
                     </div>
-
                 </div>
             </div>
         );
