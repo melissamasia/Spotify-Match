@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LoginPage from './LoginPage/LoginPage';
 import ResultsPage from './ResultsPage/ResultsPage';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props){
@@ -15,7 +16,7 @@ class App extends Component {
     this.getAccessToken = this.getAccessToken.bind(this);
     this.fetchComparisonData = this.fetchComparisonData.bind(this);
   }
-  
+
   //call to get Access Token
   getAccessToken(){
   //return username
@@ -44,8 +45,17 @@ class App extends Component {
   //call to compare libs
   fetchComparisonData() {
     console.log('called fetchComparisonData');
-    this.setState({
-      resultsComputed: true,
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const gatewayURL = 'https://k9dlm45hu8.execute-api.us-east-2.amazonaws.com/Test/comparison';
+    var urlToCall = proxyurl + gatewayURL;
+    axios.get(urlToCall)
+    .then(res => {
+      console.log(res.data);
+      this.setState({
+        resultsComputed: true,
+      })
+    }).catch(error=> {
+      console.log(error);
     });
   };
   
@@ -76,7 +86,5 @@ class App extends Component {
     );
   }
 }
-
-
 
 export default App;
