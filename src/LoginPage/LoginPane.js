@@ -8,50 +8,61 @@ class LoginPane extends Component {
     constructor(props){
         super(props);
         this.state = {
-            username: '',
-            isLoading: false,
-            loggedIn: false,
+            authInProcess: false,
         }
         this.handleClick = this.handleClick.bind(this);
+        this.renderLoggedIn = this.renderLoggedIn.bind(this);
+        this.renderNotLoggedIn = this.renderNotLoggedIn.bind(this);
+        this.renderLogInProcess = this.renderLogInProcess.bind(this);
     }
     
     handleClick(){
-        this.setState({ isLoading: true });
-        //insert ajax call
-        var username = this.props.onLoginClick();
+        this.props.onLoginClick();
         this.setState({ 
-            loggedIn: true,
-            username,
+            authInProcess: true,
         });
-        setTimeout(() => {
-            this.setState({ isLoading: false})
-        }, 2000);
-        
     }
     
-    render(){
-        if (this.state.loggedIn){
-            return (
-                <div className="pane">
+    renderLoggedIn(){
+        return(
+            <div className="pane">
                     <img className="check-icon"src={check}></img>
-                    <p> {this.state.username} is signed in.</p>
-                </div>
-            );
+                    <p> User {this.props.id} is signed in.</p>
+            </div>
+        );
+    }
+
+    renderNotLoggedIn(){
+        return (
+            <div className="pane">
+                <img src={logo}></img>
+                <Button 
+                    onClick={this.handleClick} 
+                    className="login-button" 
+                    bsStyle="success" 
+                    bsSize="large"
+                >
+                    Login to Spotify
+                </Button>
+            </div>
+        );  
+    }
+
+    renderLogInProcess(){
+        return(
+            <div className="pane">
+                <p>Authorizing...</p>
+            </div>
+        );
+    }
+
+    render(){
+        if (this.props.loggedIn){
+            return this.renderLoggedIn();
+        } else if(this.state.authInProcess) {
+            return this.renderLogInProcess();
         } else {
-            return (
-                <div className="pane">
-                    <img src={logo}></img>
-                    <Button 
-                        onClick={!this.state.isLoading ? this.handleClick : null } 
-                        className="login-button" 
-                        bsStyle="success" 
-                        bsSize="large"
-                        disabled={this.stateisLoading}
-                    >
-                        {this.state.isLoading ? 'Loading...' : 'Login to Spotify'}
-                    </Button>
-                </div>
-            );
+            return this.renderNotLoggedIn();
         }
     }
 }

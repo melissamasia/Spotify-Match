@@ -3,6 +3,7 @@ import LoginPage from './LoginPage/LoginPage';
 import ResultsPage from './ResultsPage/ResultsPage';
 import './App.css';
 import axios from 'axios';
+import PopupWindow from './LoginPage/PopupWindow';
 
 class App extends Component {
   constructor(props){
@@ -11,10 +12,22 @@ class App extends Component {
       resultsComputed: false,
       accessToken1: '',
       accessToken2: '',
+      renderPopup1: false,
+      renderPopup2: false,
     }
     this.getUser = this.getUser.bind(this);
-    this.getAccessToken = this.getAccessToken.bind(this);
+    // this.getAccessToken = this.getAccessToken.bind(this);
+    this.onLoginClick1 = this.onLoginClick1.bind(this);
+    this.onLoginClick2 = this.onLoginClick2.bind(this);
+    this.renderPopup1 = this.renderPopup1.bind(this);
+    this.renderPopup2 = this.renderPopup2.bind(this);
     this.fetchComparisonData = this.fetchComparisonData.bind(this);
+  }
+
+  componentDidUpdate(){
+    window.addEventListener('message', function(message){
+      console.log(message.data);
+    })
   }
 
   //call to get Access Token
@@ -34,14 +47,16 @@ class App extends Component {
   };
 
   getUser(){
-      var response = this.getAccessToken();
-      if (response === 'success'){
-        return 'melissamasia';
-      } else {
-        return 'error gathering user';
-      }
+      this.setState({renderPopup: true})
+      // var response = this.getAccessToken();
+      // if (response === 'success'){
+      //   return 'melissamasia';
+      // } else {
+      //   return 'error gathering user';
+      // }
   }
-  
+
+
   //call to compare libs
   fetchComparisonData() {
     console.log('called fetchComparisonData');
@@ -58,11 +73,38 @@ class App extends Component {
       console.log(error);
     });
   };
+
+  onLoginClick1(){
+    this.setState({ renderPopup1: true });
+  }
+
+  onLoginClick2(){
+    this.setState({ renderPopup2: true });
+  }
+
+  renderPopup1(){
+    return(
+      <PopupWindow>
+        test
+      </PopupWindow>
+    )
+  }
+
+  renderPopup2(){
+    return(
+      <PopupWindow>
+        test
+      </PopupWindow>
+    )
+  }
   
   renderLoginPage(){ 
     return (
       <LoginPage 
-        onLoginClick={this.getUser}
+        onLoginClick1={this.onLoginClick1}
+        onLoginClick2={this.onLoginClick2}
+        authInProcess1={this.state.renderPopup1}
+        authInProcess2={this.state.renderPopup2}
         onSubmitClick={this.fetchComparisonData}
         bothLoggedIn={(this.state.accessToken1 !== '' && this.state.accessToken2 !== '')}
       >
@@ -81,6 +123,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           {!this.state.resultsComputed ? this.renderLoginPage() : this.renderResultsPage()}
+          {this.state.renderPopup1 ? this.renderPopup1() : null}
+          {this.state.renderPopup2 ? this.renderPopup2() : null}
         </header>
       </div>
     );

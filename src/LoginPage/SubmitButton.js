@@ -23,7 +23,7 @@ class SubmitButton extends Component {
     render(){
         return (
             < Button 
-                className="compare-libs" 
+                className="compare-libs-button" 
                 bsSize="large" 
                 disabled={this.props.isDisabled || this.stateisLoading}
                 onClick={!this.state.isLoading ? this.handleClick : null }
