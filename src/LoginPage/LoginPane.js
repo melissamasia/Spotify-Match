@@ -26,7 +26,7 @@ class LoginPane extends Component {
     renderLoggedIn(){
         return(
             <div className="pane">
-                    <img className="check-icon"src={check}></img>
+                    <img alt='' className="check-icon"src={check}></img>
                     <p> User {this.props.id} is signed in.</p>
             </div>
         );
@@ -35,7 +35,7 @@ class LoginPane extends Component {
     renderNotLoggedIn(){
         return (
             <div className="pane">
-                <img src={logo}></img>
+                <img alt='' src={logo}></img>
                 <Button 
                     onClick={this.handleClick} 
                     className="login-button" 

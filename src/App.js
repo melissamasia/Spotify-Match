@@ -26,7 +26,7 @@ class App extends Component {
 
   componentDidUpdate(){
     window.addEventListener('message', function(message){
-      console.log(message.data);
+      //assign access token
     })
   }
 
@@ -92,9 +92,7 @@ class App extends Component {
 
   renderPopup2(){
     return(
-      <PopupWindow>
-        test
-      </PopupWindow>
+      <PopupWindow></PopupWindow>
     )
   }
   

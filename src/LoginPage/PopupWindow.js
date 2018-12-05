@@ -2,16 +2,6 @@ import React, { Component }  from 'react';
 import NewWindow from 'react-new-window';
 
 class PopupWindow extends Component {
-    constructor(props){
-        super(props)
-    }
-
-    componentDidMount(){
-        var targetWindow = window.parent;
-        console.log(targetWindow);
-        targetWindow.postMessage('hello from popup', '*');
-    }
-
     render(){
         return(
             <NewWindow
