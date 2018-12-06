@@ -4,12 +4,12 @@ import logo from './logo.png';
 import check from './check.png';
 import { Button } from 'react-bootstrap';
 
+const AUTH_STAGES = ['NOT AUTHORIZED', 'IN PROGRESS', 'AUTHORIZED'];
+
 class LoginPane extends Component {
+
     constructor(props){
         super(props);
-        this.state = {
-            authInProcess: false,
-        }
         this.handleClick = this.handleClick.bind(this);
         this.renderLoggedIn = this.renderLoggedIn.bind(this);
         this.renderNotLoggedIn = this.renderNotLoggedIn.bind(this);
@@ -17,10 +17,7 @@ class LoginPane extends Component {
     }
     
     handleClick(){
-        this.props.onLoginClick();
-        this.setState({ 
-            authInProcess: true,
-        });
+        this.props.onLoginClick(this.props.id);
     }
     
     renderLoggedIn(){
@@ -57,9 +54,9 @@ class LoginPane extends Component {
     }
 
     render(){
-        if (this.props.loggedIn){
+        if (this.props.authStage === AUTH_STAGES[2]){
             return this.renderLoggedIn();
-        } else if(this.state.authInProcess) {
+        } else if(this.props.authStage === AUTH_STAGES[1]) {
             return this.renderLogInProcess();
         } else {
             return this.renderNotLoggedIn();

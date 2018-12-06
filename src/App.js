@@ -3,7 +3,9 @@ import LoginPage from './LoginPage/LoginPage';
 import ResultsPage from './ResultsPage/ResultsPage';
 import './App.css';
 import axios from 'axios';
-import PopupWindow from './LoginPage/PopupWindow';
+import PopupWindow from './PopupWindow';
+
+export const AUTH_STAGES = ['NOT AUTHORIZED', 'IN PROGRESS', 'AUTHORIZED'];
 
 class App extends Component {
   constructor(props){
@@ -14,48 +16,28 @@ class App extends Component {
       accessToken2: '',
       renderPopup1: false,
       renderPopup2: false,
+      user1AuthStage: AUTH_STAGES[0],
+      user2AuthStage: AUTH_STAGES[0],
     }
-    this.getUser = this.getUser.bind(this);
-    // this.getAccessToken = this.getAccessToken.bind(this);
-    this.onLoginClick1 = this.onLoginClick1.bind(this);
-    this.onLoginClick2 = this.onLoginClick2.bind(this);
-    this.renderPopup1 = this.renderPopup1.bind(this);
-    this.renderPopup2 = this.renderPopup2.bind(this);
+    this.onLoginClick = this.onLoginClick.bind(this);
+    this.renderPopup = this.renderPopup.bind(this);
     this.fetchComparisonData = this.fetchComparisonData.bind(this);
   }
-
   componentDidUpdate(){
-    window.addEventListener('message', function(message){
-      //assign access token
-    })
-  }
-
-  //call to get Access Token
-  getAccessToken(){
-  //return username
-      console.log('called getAccessToken');
-      if (this.state.accessToken1 === ''){
+    window.addEventListener('message', (message) => {
+      if (this.state.user1AuthStage === AUTH_STAGES[1]) {
         this.setState({
-          accessToken1: 'accesstoken1',
+            accessToken1: message.data,
+            user1AuthStage: AUTH_STAGES[2],
         });
       } else {
         this.setState({
-          accessToken2: 'accesstoken2',
+          accessToken2: message.data,
+          user2AuthStage: AUTH_STAGES[2]
         });
       }
-      return 'success';
-  };
-
-  getUser(){
-      this.setState({renderPopup: true})
-      // var response = this.getAccessToken();
-      // if (response === 'success'){
-      //   return 'melissamasia';
-      // } else {
-      //   return 'error gathering user';
-      // }
+    });
   }
-
 
   //call to compare libs
   fetchComparisonData() {
@@ -74,23 +56,21 @@ class App extends Component {
     });
   };
 
-  onLoginClick1(){
-    this.setState({ renderPopup1: true });
+  onLoginClick(id){
+    if (id === 1){
+      this.setState({
+        user1AuthStage: AUTH_STAGES[1],
+        renderPopup1: true,
+      })
+    } else {
+      this.setState({
+        user2AuthStage: AUTH_STAGES[1],
+        renderPopup2: true,
+      })
+    }
   }
 
-  onLoginClick2(){
-    this.setState({ renderPopup2: true });
-  }
-
-  renderPopup1(){
-    return(
-      <PopupWindow>
-        test
-      </PopupWindow>
-    )
-  }
-
-  renderPopup2(){
+  renderPopup(){
     return(
       <PopupWindow></PopupWindow>
     )
@@ -99,12 +79,11 @@ class App extends Component {
   renderLoginPage(){ 
     return (
       <LoginPage 
-        onLoginClick1={this.onLoginClick1}
-        onLoginClick2={this.onLoginClick2}
-        authInProcess1={this.state.renderPopup1}
-        authInProcess2={this.state.renderPopup2}
+        onLoginClick={this.onLoginClick}
+        authStage1={this.state.user1AuthStage}
+        authStage2={this.state.user2AuthStage}
         onSubmitClick={this.fetchComparisonData}
-        bothLoggedIn={(this.state.accessToken1 !== '' && this.state.accessToken2 !== '')}
+        bothLoggedIn={(this.state.user1AuthStage === AUTH_STAGES[2] && this.state.user2AuthStage === AUTH_STAGES[2])}
       >
       </LoginPage>
     );
@@ -121,8 +100,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           {!this.state.resultsComputed ? this.renderLoginPage() : this.renderResultsPage()}
-          {this.state.renderPopup1 ? this.renderPopup1() : null}
-          {this.state.renderPopup2 ? this.renderPopup2() : null}
+          {this.state.renderPopup1 ? this.renderPopup() : null}
+          {this.state.renderPopup2 ? this.renderPopup() : null}
         </header>
       </div>
     );
