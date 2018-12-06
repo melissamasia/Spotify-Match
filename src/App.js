@@ -21,7 +21,7 @@ class App extends Component {
     }
     this.onLoginClick = this.onLoginClick.bind(this);
     this.renderPopup = this.renderPopup.bind(this);
-    this.fetchComparisonData = this.fetchComparisonData.bind(this);
+    this.postAccessTokens = this.postAccessTokens.bind(this);
   }
   componentDidUpdate(){
     window.addEventListener('message', (message) => {
@@ -39,22 +39,20 @@ class App extends Component {
     });
   }
 
-  //call to compare libs
-  fetchComparisonData() {
-    console.log('called fetchComparisonData');
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    const gatewayURL = 'https://k9dlm45hu8.execute-api.us-east-2.amazonaws.com/Test/comparison';
-    var urlToCall = proxyurl + gatewayURL;
-    axios.get(urlToCall)
-    .then(res => {
-      console.log(res.data);
-      this.setState({
-        resultsComputed: true,
+  postAccessTokens(){
+      console.log('post access tokens called');
+      const proxyurl = "https://cors-anywhere.herokuapp.com/";
+      const gatewayURL = 'https://k9dlm45hu8.execute-api.us-east-2.amazonaws.com/Test/comparison';
+      var urlToCall = proxyurl + gatewayURL;
+      axios.post(urlToCall, {
+        token1: this.state.accessToken1,
+        token2: this.state.accessToken2
+      }).then(res => {
+        console.log('success in postAccessToken', res,);
+      }).catch(error => {
+        console.log(error, 'in postAccessToken');
       })
-    }).catch(error=> {
-      console.log(error);
-    });
-  };
+  }
 
   onLoginClick(id){
     if (id === 1){
@@ -82,7 +80,7 @@ class App extends Component {
         onLoginClick={this.onLoginClick}
         authStage1={this.state.user1AuthStage}
         authStage2={this.state.user2AuthStage}
-        onSubmitClick={this.fetchComparisonData}
+        onSubmitClick={this.postAccessTokens}
         bothLoggedIn={(this.state.user1AuthStage === AUTH_STAGES[2] && this.state.user2AuthStage === AUTH_STAGES[2])}
       >
       </LoginPage>
