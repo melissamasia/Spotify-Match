@@ -18,10 +18,14 @@ class App extends Component {
       renderPopup2: false,
       user1AuthStage: AUTH_STAGES[0],
       user2AuthStage: AUTH_STAGES[0],
+      score: 0,
+      artists: [],
+      songs: []
     }
     this.onLoginClick = this.onLoginClick.bind(this);
     this.renderPopup = this.renderPopup.bind(this);
     this.postAccessTokens = this.postAccessTokens.bind(this);
+    this.renderResultsPage = this.renderResultsPage.bind(this);
   }
   componentDidUpdate(){
     window.addEventListener('message', (message) => {
@@ -40,15 +44,23 @@ class App extends Component {
   }
 
   postAccessTokens(){
-      console.log('post access tokens called');
       const proxyurl = "https://cors-anywhere.herokuapp.com/";
       const gatewayURL = 'https://k9dlm45hu8.execute-api.us-east-2.amazonaws.com/Test/comparison';
       var urlToCall = proxyurl + gatewayURL;
+
+      var tokens = {
+        "token1": this.state.accessToken1,
+        "token2": this.state.accessToken2,
+      }
       axios.post(urlToCall, {
-        token1: this.state.accessToken1,
-        token2: this.state.accessToken2
+        data: tokens
       }).then(res => {
-        console.log('success in postAccessToken', res,);
+        this.setState({
+          score: res.data.score,
+          artists: res.data.artists,
+          songs: res.data.songs,
+          resultsComputed: true,
+        });
       }).catch(error => {
         console.log(error, 'in postAccessToken');
       })
@@ -89,7 +101,11 @@ class App extends Component {
 
   renderResultsPage(){
     return (
-      <ResultsPage></ResultsPage>
+      <ResultsPage
+        score={this.state.score}
+        artists={this.state.artists}
+        songs={this.state.songs}
+      ></ResultsPage>
     );
   }
 
