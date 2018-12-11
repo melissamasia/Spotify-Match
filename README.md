@@ -18,13 +18,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 12. Scroll down and hit "Save"
 13. Copy your Client ID
 
-##In the Repository
+### In the Repository
 1. Open the repository in your favorite IDE.
-2. In "PopupContent.js" paste your Client ID where it says "insert your client id here"
+2. In "PopupWindow.js" paste your Client ID where it says "insert your client id here"
 3. Open up a terminal in the working directory
 4. run "npm install"
 5. run "yarn start" and the working app should be running in localhost:3000
 
-##Note
+### Note
 If the above steps do not work, it may be because I have taken down the API Gateway that connects the front end to the Lambda function.
 
