@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import LoginPage from './LoginPage/LoginPage';
+import PopupWindow from './PopupWindow';
 import ResultsPage from './ResultsPage/ResultsPage';
 import './App.css';
-import axios from 'axios';
-import PopupWindow from './PopupWindow';
 
 export const AUTH_STAGES = ['NOT AUTHORIZED', 'IN PROGRESS', 'AUTHORIZED'];
 
@@ -27,6 +27,7 @@ class App extends Component {
     this.postAccessTokens = this.postAccessTokens.bind(this);
     this.renderResultsPage = this.renderResultsPage.bind(this);
   }
+
   componentDidUpdate(){
     window.addEventListener('message', (message) => {
       if (this.state.user1AuthStage === AUTH_STAGES[1]) {
@@ -43,6 +44,7 @@ class App extends Component {
     });
   }
 
+  //function that makes call to AWS API Gateway with the auth tokens, receives results from Lambda fxn
   postAccessTokens(){
       const proxyurl = "https://cors-anywhere.herokuapp.com/";
       const gatewayURL = 'https://k9dlm45hu8.execute-api.us-east-2.amazonaws.com/Test/comparison';
@@ -66,6 +68,8 @@ class App extends Component {
       })
   }
 
+  //function to call when "Login button is clicked on LoginPane
+  // starts authorization process (opens correct popup, changes state)
   onLoginClick(id){
     if (id === 1){
       this.setState({
@@ -80,12 +84,14 @@ class App extends Component {
     }
   }
 
+  //function to render the popup window used in authorization
   renderPopup(){
     return(
       <PopupWindow></PopupWindow>
     )
   }
   
+  //View to show before users compare libraries
   renderLoginPage(){ 
     return (
       <LoginPage 
@@ -99,6 +105,8 @@ class App extends Component {
     );
   }
 
+  //refactor: do not show artists or songs when the score is 0.
+  //View to show when results are computed
   renderResultsPage(){
     return (
       <ResultsPage

@@ -2,10 +2,19 @@ import React, { Component }  from 'react';
 import NewWindow from 'react-new-window';
 
 class PopupWindow extends Component {
+    
+    //refactor: randomly generate the state
+    //insert your client id in the url
+    getURL(){
+        var client_id = 'insert your client id here';
+        var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id + '&redirect_uri=http:%2F%2Flocalhost:3000%2Fcallback&scope=user-read-private%20user-read-email&response_type=token&state=123';
+        return url;
+    }
+
     render(){
         return(
             <NewWindow
-              url={'https://accounts.spotify.com/en/authorize?client_id=b69a89e58df54733aa251e2bb81537fb&redirect_uri=http:%2F%2Flocalhost:3000%2Fcallback&scope=user-read-private%20user-library-read&response_type=token&state=123&show_dialog=true'}
+              url={this.getURL()}
             >
             </NewWindow>
         );

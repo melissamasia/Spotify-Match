@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './Login.css';
-import logo from './logo.png';
-import check from './check.png';
 import { Button } from 'react-bootstrap';
+import './Login.css';
+import check from './check.png';
+import logo from './logo.png';
 
 const AUTH_STAGES = ['NOT AUTHORIZED', 'IN PROGRESS', 'AUTHORIZED'];
 
@@ -16,10 +16,12 @@ class LoginPane extends Component {
         this.renderLogInProcess = this.renderLogInProcess.bind(this);
     }
     
+    //function called when Login button is clicked
     handleClick(){
         this.props.onLoginClick(this.props.id);
     }
     
+    //View to show on the Login Pane when a user is authorized
     renderLoggedIn(){
         return(
             <div className="pane">
@@ -29,6 +31,7 @@ class LoginPane extends Component {
         );
     }
 
+    //View to show on the Login Pane when a user has not yet signed in
     renderNotLoggedIn(){
         return (
             <div className="pane">
@@ -45,6 +48,7 @@ class LoginPane extends Component {
         );  
     }
 
+    //View to show when authorization is in process
     renderLogInProcess(){
         return(
             <div className="pane">

@@ -11,9 +11,10 @@ class SubmitButton extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    //refactor: ensure button is "loading" until the results page is rendered
+    //function called when "Compare Libraries" button clicked
     handleClick(){
         this.setState({ isLoading: true });
-        //insert ajax call
         this.props.onClick();
         setTimeout(() => {
             this.setState({ isLoading: false})
