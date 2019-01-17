@@ -1,5 +1,5 @@
 import React from 'react';
-import App from './App';
+import App from '../App';
 import PopupContent from './PopupContent';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
